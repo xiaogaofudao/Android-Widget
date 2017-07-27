@@ -20,7 +20,7 @@ public class Toast extends Dialog {
     private TextView mMessage;
     private Window dialog;
     private static Toast mToast = null;
-    public Toast(Context context, String msg, int duration) {
+    private Toast(Context context, String msg, int duration) {
         super(context, R.style.Translucent_Dialog);
         mContext = context;
         if(duration == Toast.LENGTH_LONG) {
@@ -72,7 +72,7 @@ public class Toast extends Dialog {
         dialog.getDecorView().postDelayed(dismissRunnable, time);
     }
 
-    public int dip2px(Context context, float dpValue) {
+    private int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
