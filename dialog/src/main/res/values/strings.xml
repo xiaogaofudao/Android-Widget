@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Dialog</string>
+    <string name="confirm">确定</string>
+    <string name="hint">提示</string>
 </resources>

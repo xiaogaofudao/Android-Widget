@@ -17,8 +17,6 @@
         android:textSize="16sp"
         android:gravity="center"
         android:layout_gravity="center_horizontal"
-        android:textColor="#ffffffff"
-        android:shadowColor="#BB000000"
-        android:shadowRadius="2.75" />
+        android:textColor="#ffffffff" />
 
 </LinearLayout>

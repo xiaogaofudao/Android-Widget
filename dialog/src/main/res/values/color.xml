@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="text_color">#333333</color>
+    <color name="line_color">#E3E3E3</color>
+    <color name="main_yellow">#FFC81F</color>
+    <color name="dark_yellow">#FF5D25</color>
+    <color name="btn_text_color">#691600</color>
+    <color name="btn_text_color_pressed">#FFA57F</color>
+</resources>

@@ -21,7 +21,7 @@ public class Toast extends Dialog {
     private Window dialog;
     private static Toast mToast = null;
     private Toast(Context context, String msg, int duration) {
-        super(context, R.style.Translucent_Dialog);
+        super(context, R.style.Toast);
         mContext = context;
         if(duration == Toast.LENGTH_LONG) {
             time = 3500L;
