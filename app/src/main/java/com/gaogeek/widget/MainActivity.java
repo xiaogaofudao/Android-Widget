@@ -19,10 +19,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.Toast2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this,"测试测试 Toast 2222222", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         findViewById(R.id.Dialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HintDialog.makeText(MainActivity.this, "dsf 第三方是试信息大师傅大师傅士大夫士大夫稍等发测试信息").show();
+                HintDialog.makeText(MainActivity.this, "第三方是试信息大师傅大师傅士大夫士大夫稍等发测试信息").show();
+            }
+        });
+
+        findViewById(R.id.Dialog2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HintDialog.makeText(MainActivity.this, "测试消息2").show();
             }
         });
     }

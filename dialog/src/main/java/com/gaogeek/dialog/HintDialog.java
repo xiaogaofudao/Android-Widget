@@ -11,22 +11,20 @@ import android.widget.TextView;
  */
 
 public class HintDialog extends Dialog {
-    private TextView mConfirmBtn;
     private OverLineTextView mMessage;
     private TextView mTitle;
 
     private static HintDialog mDialog = null;
 
-    public HintDialog(Context context) {
+    private HintDialog(Context context) {
         super(context, R.style.Dialog);
         setContentView(R.layout.dialog_hint);
         setCanceledOnTouchOutside(false);
 
-        mConfirmBtn = (TextView) findViewById(R.id.confirm_btn);
         mMessage = (OverLineTextView) findViewById(R.id.message_body);
         mTitle = (TextView) findViewById(R.id.dialog_title);
 
-        mConfirmBtn.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.confirm_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
@@ -52,7 +50,7 @@ public class HintDialog extends Dialog {
         setTitle(getContext().getResources().getString(textRes));
     }
 
-    public void setMessage(String text) {
+    private void setMessage(String text) {
         mMessage.setText(text, TextView.BufferType.NORMAL);
     }
 

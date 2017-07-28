@@ -46,7 +46,6 @@
             android:gravity="center"
             android:padding="5dp"
             android:text="@string/confirm"
-            android:onClick="onConfirmClick"
             android:textColor="@drawable/button_text_color"
             android:textSize="18sp" />
 
