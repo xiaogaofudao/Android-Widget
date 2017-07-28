@@ -6,23 +6,22 @@ package com.gaogeek.dialog;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.widget.TextView;
 
 
-public class OverLineTextView extends AppCompatTextView {
+public class OverLineTextView extends TextView {
 
     public OverLineTextView(Context context) {
         this(context, null);
     }
 
-    public OverLineTextView(Context context, @Nullable AttributeSet attrs) {
+    public OverLineTextView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public OverLineTextView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public OverLineTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
