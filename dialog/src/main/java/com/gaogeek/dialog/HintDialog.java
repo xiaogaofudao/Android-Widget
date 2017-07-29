@@ -13,6 +13,7 @@ import android.widget.TextView;
 public class HintDialog extends Dialog {
     private OverLineTextView mMessage;
     private TextView mTitle;
+    private OnConfirmListener mListener;
 
     private static HintDialog mDialog = null;
 
@@ -28,6 +29,10 @@ public class HintDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 dismiss();
+                if (mListener != null) {
+                    mListener.OnConfirm();
+                    mListener = null;
+                }
             }
         });
     }
@@ -42,7 +47,7 @@ public class HintDialog extends Dialog {
         return mDialog;
     }
 
-    public void setTitle(String text) {
+    private void setTitle(String text) {
         mTitle.setText(text);
     }
 
@@ -56,6 +61,11 @@ public class HintDialog extends Dialog {
 
     public void setMessage(int textRes) {
         setMessage(getContext().getResources().getString(textRes));
+    }
+
+    public HintDialog setOnConfirmListener(OnConfirmListener listener) {
+        mListener = listener;
+        return mDialog;
     }
 
     private int dip2px(Context context, float dpValue) {

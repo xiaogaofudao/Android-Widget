@@ -3,6 +3,8 @@ package com.gaogeek.widget;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.gaogeek.dialog.OnConfirmListener;
 import com.gaogeek.toast.Toast;
 import com.gaogeek.dialog.HintDialog;
 
@@ -36,7 +38,12 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.Dialog2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HintDialog.makeText(MainActivity.this, "测试消息2").show();
+                HintDialog.makeText(MainActivity.this, "测试消息2，点击确定弹出toast").setOnConfirmListener(new OnConfirmListener() {
+                    @Override
+                    public void OnConfirm() {
+                        Toast.makeText(MainActivity.this,"确定", Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
             }
         });
     }

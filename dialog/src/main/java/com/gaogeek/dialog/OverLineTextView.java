@@ -35,7 +35,6 @@ public class OverLineTextView extends TextView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         setOverLine(getLineCount() > 1);
-
     }
 
     private void setOverLine(boolean overLine) {
