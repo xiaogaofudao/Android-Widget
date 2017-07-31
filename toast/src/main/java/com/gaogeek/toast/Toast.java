@@ -1,79 +1,78 @@
 package com.gaogeek.toast;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.view.Gravity;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
 
+public class Toast {
+    public static final int LENGTH_SHORT = eToast.LENGTH_SHORT;
+    public static final int LENGTH_LONG = eToast.LENGTH_LONG;
+    private Object mToast;
 
-/**
- * Created by gaogeek on 2017/7/26.
- */
-
-public class Toast extends Dialog {
-    public static final int LENGTH_SHORT = 0;
-    public static final int LENGTH_LONG = 1;
-    private Long time = 2000L;
-    private Context mContext;
-    private TextView mMessage;
-    private Window dialog;
-    private static Toast mToast = null;
-    private Toast(Context context, String msg, int duration) {
-        super(context, R.style.Toast);
-        mContext = context;
-        if(duration == Toast.LENGTH_LONG) {
-            time = 3500L;
-        } else if (duration > 1000) {
-            time = (long) duration;
-        }
-        initView(msg);
-    }
-    private void initView(String msg) {
-        setCancelable(false);
-        setContentView(R.layout.toast);
-        dialog = getWindow();
-        mMessage = (TextView) findViewById(R.id.mbMessage);
-        WindowManager.LayoutParams lp = dialog.getAttributes();
-        lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
-        lp.y = dip2px(mContext, 72f);
-        dialog.setAttributes(lp);
-//        setCanceledOnTouchOutside(true);
+    private Toast(Context context, String message, int duration) {
+        mToast = eToast.makeText(context, message, duration);
     }
 
-    public static Toast makeText(Context context, String msg, int duration) {
-        if (mToast == null) {
-            mToast = new Toast(context, msg, duration);
-        }
-        if (!msg.isEmpty()) {
-            mToast.setText(msg);
-        }
-        return mToast;
+    private Toast(Context context, int resId, int duration) {
+        mToast = eToast.makeText(context, resId, duration);
     }
 
-    public static Toast makeText(Context context, int resId, int HIDE_DELAY) {
-        return makeText(context, context.getText(resId).toString(), HIDE_DELAY);
+    public static Toast makeText(Context context, String message, int duration) {
+        return new Toast(context, message, duration);
     }
 
-    private Runnable dismissRunnable = new Runnable() {
-        @Override
-        public void run() {
-            dismiss();
-        }
-    };
-
-    private void setText(String msg) {
-        mMessage.setText(msg);
+    public static Toast makeText(Context context, int resId, int duration) {
+        return new Toast(context, resId, duration);
     }
 
     public void show() {
-        super.show();
-        dialog.getDecorView().postDelayed(dismissRunnable, time);
+        if (mToast instanceof eToast) {
+            ((eToast) mToast).show();
+        } else if (mToast instanceof android.widget.Toast) {
+            ((android.widget.Toast) mToast).show();
+        }
     }
 
-    private int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+    public void cancel() {
+        if (mToast instanceof eToast) {
+            ((eToast) mToast).cancel();
+        } else if (mToast instanceof android.widget.Toast) {
+            ((android.widget.Toast) mToast).cancel();
+        }
     }
+
+    public void setText(CharSequence s) {
+        if (mToast instanceof eToast) {
+            ((eToast) mToast).setText(s);
+        } else if (mToast instanceof android.widget.Toast) {
+            ((android.widget.Toast) mToast).setText(s);
+        }
+    }
+
+    /**
+     * 用来判断是否开启通知权限
+     */
+//    private static boolean isNotificationEnabled(Context context) {
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+//            AppOpsManager mAppOps = (AppOpsManager) context.getSystemService(Context.APP_OPS_SERVICE);
+//            ApplicationInfo appInfo = context.getApplicationInfo();
+//
+//            String pkg = context.getApplicationContext().getPackageName();
+//
+//            int uid = appInfo.uid;
+//
+//            Class appOpsClass = null; /* Context.APP_OPS_MANAGER */
+//
+//            try {
+//                appOpsClass = Class.forName(AppOpsManager.class.getName());
+//                Method checkOpNoThrowMethod = appOpsClass.getMethod(CHECK_OP_NO_THROW, Integer.TYPE, Integer.TYPE, String.class);
+//                Field opPostNotificationValue = appOpsClass.getDeclaredField(OP_POST_NOTIFICATION);
+//                int value = (int) opPostNotificationValue.get(Integer.class);
+//                return ((int) checkOpNoThrowMethod.invoke(mAppOps, value, uid, pkg) == AppOpsManager.MODE_ALLOWED);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                return false;
+//            }
+//        } else {
+//            return false;
+//        }
+//    }
 }

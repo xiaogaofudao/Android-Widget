@@ -17,10 +17,13 @@ public class HintDialog extends Dialog {
 
     private static HintDialog mDialog = null;
 
+    private Context mContext;
+
     private HintDialog(Context context) {
         super(context, R.style.Dialog);
         setContentView(R.layout.dialog_hint);
         setCanceledOnTouchOutside(false);
+        mContext = context;
 
         mMessage = (OverLineTextView) findViewById(R.id.message_body);
         mTitle = (TextView) findViewById(R.id.dialog_title);
@@ -40,6 +43,11 @@ public class HintDialog extends Dialog {
     public static HintDialog makeText(Context context, String msg) {
         if (mDialog == null) {
             mDialog = new HintDialog(context);
+        } else {
+            if (!mDialog.mContext.getClass().equals(context.getClass())) {
+                mDialog = null;
+                mDialog = new HintDialog(context);
+            }
         }
         if (!msg.isEmpty()) {
             mDialog.setMessage(msg);

@@ -6,4 +6,5 @@
     <color name="dark_yellow">#FF5D25</color>
     <color name="btn_text_color">#691600</color>
     <color name="btn_text_color_pressed">#FFA57F</color>
+    <color name="BlackTransparent">#90000000</color>
 </resources>
