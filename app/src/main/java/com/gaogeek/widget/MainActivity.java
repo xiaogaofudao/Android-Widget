@@ -24,7 +24,10 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.Toast2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"测试测试 Toast 2222222", Toast.LENGTH_SHORT).show();
+                Toast mToast = Toast.makeText(MainActivity.this,"测试测试 Toast 2222222", Toast.LENGTH_SHORT);
+                mToast.setText("覆盖Toast消息");
+                mToast.setDuration(5000);
+                mToast.show();
             }
         });
 
