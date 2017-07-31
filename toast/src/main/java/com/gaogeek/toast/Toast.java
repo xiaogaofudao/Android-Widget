@@ -24,12 +24,13 @@ public class Toast {
     public static final int LENGTH_LONG = android.widget.Toast.LENGTH_LONG;
     private static Handler handler;
     private CharSequence text;
-    private int duration;
+    private Context mContext;
 
     private Toast(Context context, CharSequence text, int HIDE_DELAY){
         manger = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 
         this.text = text;
+        mContext = context;
 
         setDuration(HIDE_DELAY);
 
@@ -105,6 +106,10 @@ public class Toast {
         } else {
             oldToast.setText(s);
         }
+    }
+
+    public void setText(int resId) {
+        setText(mContext.getText(resId).toString());
     }
 
     public void setDuration(int t) {

@@ -3,6 +3,7 @@ package com.gaogeek.widget;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+//import android.widget.Toast;
 
 import com.gaogeek.dialog.OnConfirmListener;
 import com.gaogeek.toast.Toast;
@@ -25,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast mToast = Toast.makeText(MainActivity.this,"测试测试 Toast 2222222", Toast.LENGTH_SHORT);
-                mToast.setText("覆盖Toast消息");
-                mToast.setDuration(5000);
+                mToast.setText(R.string.app_name);
+//                mToast.setDuration(5000);
                 mToast.show();
             }
         });
