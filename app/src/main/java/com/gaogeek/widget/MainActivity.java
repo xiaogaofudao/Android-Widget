@@ -3,11 +3,10 @@ package com.gaogeek.widget;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-//import android.widget.Toast;
 
 import com.gaogeek.dialog.OnConfirmListener;
-import com.gaogeek.toast.Toast;
 import com.gaogeek.dialog.HintDialog;
+import com.gaogeek.toast.Toast;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -18,16 +17,17 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.Toast).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"测试测试 Toast", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"测试测试 Toast", Toast.LENGTH_SHORT).show();
             }
         });
 
         findViewById(R.id.Toast2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(),"测试测试 Toast2222222222222", Toast.LENGTH_SHORT).show();
                 Toast mToast = Toast.makeText(MainActivity.this,"测试测试 Toast 2222222", Toast.LENGTH_SHORT);
-                mToast.setText(R.string.app_name);
-//                mToast.setDuration(5000);
+//                mToast.setText(R.string.app_name);
+                mToast.setDuration(5000);
                 mToast.show();
             }
         });

@@ -1,78 +1,99 @@
 package com.gaogeek.toast;
 
+/**
+ * Created by gaogeek on 2017/8/2.
+ */
 import android.content.Context;
-
-import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.Handler;
-import android.os.Message;
-import android.view.Gravity;
-import android.view.View;
-import android.view.WindowManager;
 
+import android.os.Message;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Toast {
-    private WindowManager manger;
-    private Long time = 2000L;
-    private static View contentView;
-    private WindowManager.LayoutParams params;
+
+    private static int currentapiVersion = Build.VERSION.SDK_INT;
+
+    private Handler handler;
     private static Timer timer;
-    private android.widget.Toast toast;
-    private static android.widget.Toast oldToast;
-    public static final int LENGTH_SHORT = android.widget.Toast.LENGTH_SHORT;
-    public static final int LENGTH_LONG = android.widget.Toast.LENGTH_LONG;
-    private static Handler handler;
-    private CharSequence text;
+
+    public static int LENGTH_SHORT = android.widget.Toast.LENGTH_SHORT;
+    public static int LENGTH_LONG = android.widget.Toast.LENGTH_LONG;
+
     private Context mContext;
 
-    private Toast(Context context, CharSequence text, int HIDE_DELAY){
-        manger = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+    private Object mObj;
+    private Method showMethod, hideMethod;
+    private android.widget.Toast mToast;
 
-        this.text = text;
-        mContext = context;
+    private String text = "Toast";
+    private int time = 2500;
 
-        setDuration(HIDE_DELAY);
+    private boolean hasReflectException = false;
 
-        if(oldToast == null){
-            toast = android.widget.Toast.makeText(context, text, Toast.LENGTH_SHORT);
-            contentView = toast.getView();
+    private static Toast instance;
 
-            params = new WindowManager.LayoutParams();
-            params.height = WindowManager.LayoutParams.WRAP_CONTENT;
-            params.width = WindowManager.LayoutParams.WRAP_CONTENT;
-            params.format = PixelFormat.TRANSLUCENT;
-            params.flags = WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-                    | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                    | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
-            params.gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
-            params.y = dip2px(context, 72f);
+    public static Toast makeText(Context context, String text, int delay) {
+        if (instance == null) {
+            instance = new Toast(context);
         }
-        if(handler == null){
+        instance.setDuration(delay);
+        instance.setText(text);
+        return instance;
+    }
+
+    private Toast(Context context) {
+        if (context == null || context.getApplicationContext() == null) {
+            throw new NullPointerException("context can't be null");
+        }
+        this.mContext = context;
+        initTN();
+        if (instance != null)
+            throw new NullPointerException("error");
+        if (handler == null) {
             handler = new Handler(){
                 @Override
                 public void handleMessage(Message msg) {
-                    Toast.this.cancel();
+                    Toast.this.hideToast();
                 }
             };
         }
     }
 
-    public static Toast makeText(Context context, String text, int HIDE_DELAY){
-        return new Toast(context, text, HIDE_DELAY);
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public static Toast makeText(Context context, int resId, int HIDE_DELAY) {
-        return makeText(context,context.getText(resId).toString(),HIDE_DELAY);
+    public void setText(int resId) {
+        setText(mContext.getText(resId).toString());
     }
 
-    public void show(){
-        if(oldToast == null){
-            oldToast = toast;
-            manger.addView(contentView, params);
-            timer = new Timer();
-        } else {
-            setText(text);
+    public void setDuration(int t) {
+        if(t == android.widget.Toast.LENGTH_SHORT) {
+            this.time = 2000;
+        } else if(t == android.widget.Toast.LENGTH_LONG) {
+            this.time = 3500;
+        } else if (t > 1000) {
+            this.time = t;
+        }
+    }
+
+    public final void show() {
+        if (hasReflectException) {
+            android.widget.Toast t = new android.widget.Toast(mContext);
+            t.setText(text);
+            t.setDuration(android.widget.Toast.LENGTH_SHORT);
+            t.show();
+            initTN();
+            return;
+        }
+        mToast.setText(text);
+        showToast();
+        if (timer != null) {
             timer.cancel();
         }
         timer = new Timer();
@@ -84,41 +105,68 @@ public class Toast {
         }, time);
     }
 
+    private void initTN() {
+        Field mTN;
+        if (mToast == null) {
+            mToast = android.widget.Toast.makeText(mContext, text, android.widget.Toast.LENGTH_SHORT);
+        }
+        Class<android.widget.Toast> clazz = android.widget.Toast.class;
+        try {
+            mTN = clazz.getDeclaredField("mTN");
+            mTN.setAccessible(true);
+            mObj = mTN.get(mToast);
+            showMethod = mObj.getClass().getDeclaredMethod("show",
+                    new Class<?>[0]);
+            hideMethod = mObj.getClass().getDeclaredMethod("hide",
+                    new Class<?>[0]);
+            Field mY = mObj.getClass().getDeclaredField("mY");
+            mY.setAccessible(true);
+            mY.set(mObj, dip2px(mContext, 68F));
+            hasReflectException = false;
+        } catch (NoSuchFieldException e) {
+            hasReflectException = true;
+            System.out.println(e.getMessage());
+        } catch (IllegalAccessException e) {
+            hasReflectException = true;
+            System.out.println(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            hasReflectException = true;
+            System.out.println(e.getMessage());
+        } catch (NoSuchMethodException e) {
+            hasReflectException = true;
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void showToast() {
+        try {
+            if (currentapiVersion > 10) {
+                Field mNextView = mObj.getClass().getDeclaredField("mNextView");
+                mNextView.setAccessible(true);
+                mNextView.set(mObj, mToast.getView());
+            }
+            showMethod.invoke(mObj, new Object[0]);
+            hasReflectException = false;
+        } catch (Exception e) {
+            hasReflectException = true;
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void hideToast() {
+        timer.cancel();
+        timer = null;
+        try {
+            hideMethod.invoke(mObj, new Object[0]);
+            hasReflectException = false;
+        } catch (Exception e) {
+            hasReflectException = true;
+            System.out.println(e.getMessage());
+        }
+    }
+
     private int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
-    }
-
-    private void cancel(){
-        manger.removeView(contentView);
-        timer.cancel();
-        oldToast.cancel();
-        timer = null;
-        toast = null;
-        oldToast = null;
-        contentView = null;
-        handler = null;
-    }
-    public void setText(CharSequence s){
-        this.text = s;
-        if (oldToast == null) {
-            toast.setText(s);
-        } else {
-            oldToast.setText(s);
-        }
-    }
-
-    public void setText(int resId) {
-        setText(mContext.getText(resId).toString());
-    }
-
-    public void setDuration(int t) {
-        if(t == Toast.LENGTH_SHORT) {
-            this.time = 2000L;
-        } else if(t == Toast.LENGTH_LONG) {
-            this.time = 3500L;
-        } else if (t > 1000) {
-            this.time = (long) t;
-        }
     }
 }
