@@ -6,7 +6,12 @@ import android.view.View;
 
 import com.gaogeek.dialog.OnConfirmListener;
 import com.gaogeek.dialog.HintDialog;
+import com.gaogeek.spinner.Spinner;
 import com.gaogeek.toast.Toast;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -14,10 +19,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final Spinner niceSpinner = (Spinner) findViewById(R.id.nice_spinner);
+        List<String> dataset = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.bank_list)));
+        niceSpinner.attachDataSource(dataset);
+
         findViewById(R.id.Toast).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"测试测试 Toast", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), String.valueOf(niceSpinner.getSelectedIndex()), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -50,5 +59,6 @@ public class MainActivity extends AppCompatActivity {
                 }).show();
             }
         });
+
     }
 }
