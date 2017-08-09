@@ -12,7 +12,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 
-@SuppressWarnings("unused")
 public abstract class SpinnerBaseAdapter<T> extends BaseAdapter {
 
     private final SpinnerTextFormatter spinnerTextFormatter;
@@ -72,7 +71,7 @@ public abstract class SpinnerBaseAdapter<T> extends BaseAdapter {
     @Override
     public abstract int getCount();
 
-    static class ViewHolder {
+    private static class ViewHolder {
         TextView textView;
 
         ViewHolder(TextView textView) {
