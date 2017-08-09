@@ -123,7 +123,7 @@ public class Spinner extends TextView {
         });
 
         arrowDrawable = resources.getDrawable(R.drawable.arrow);
-        int size = dp2px(context, 18);
+        int size = dp2px(context, 16);
         arrowDrawable.setBounds(0, 0, size, size);
         setArrowDrawable(arrowDrawable);
         typedArray.recycle();
