@@ -5,7 +5,9 @@ package com.gaogeek.toast;
  */
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
 
 import java.lang.reflect.Field;
@@ -93,7 +95,11 @@ public class Toast {
             mTN = clazz.getDeclaredField("mTN");
             mTN.setAccessible(true);
             mObj = mTN.get(mToast);
-            showMethod = mObj.getClass().getDeclaredMethod("show", new Class<?>[0]);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                showMethod = mObj.getClass().getDeclaredMethod("show", IBinder.class);
+            } else {
+                showMethod = mObj.getClass().getDeclaredMethod("show", new Class<?>[0]);
+            }
             hideMethod = mObj.getClass().getDeclaredMethod("hide", new Class<?>[0]);
             Field mY = mObj.getClass().getDeclaredField("mY");
             mY.setAccessible(true);
@@ -109,7 +115,11 @@ public class Toast {
             Field mNextView = mObj.getClass().getDeclaredField("mNextView");
             mNextView.setAccessible(true);
             mNextView.set(mObj, mToast.getView());
-            showMethod.invoke(mObj, new Object[0]);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+                showMethod.invoke(mObj, new Object[1]);
+            } else {
+                showMethod.invoke(mObj, new Object[0]);
+            }
             hasReflectException = false;
         } catch (Exception e) {
             hasReflectException = true;
