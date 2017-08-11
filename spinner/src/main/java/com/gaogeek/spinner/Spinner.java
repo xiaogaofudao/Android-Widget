@@ -110,10 +110,8 @@ public class Spinner extends TextView {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             popupWindow.setElevation(DEFAULT_ELEVATION);
-            popupWindow.setBackgroundDrawable(resources.getDrawable(R.drawable.spinner_background));
-        } else {
-            popupWindow.setBackgroundDrawable(resources.getDrawable(R.drawable.drop_down_shadow));
         }
+        popupWindow.setBackgroundDrawable(resources.getDrawable(R.drawable.spinner_background));
 
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
             @Override
