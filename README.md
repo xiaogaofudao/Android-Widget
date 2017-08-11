@@ -4,6 +4,7 @@
 # Android-Widget
 
 Toast 一个关闭系统消息通知后依然可以显示的Toast
+Spinner 自定义单选下拉框
 Dialog 自定义弹出框
 
 具体使用如下：
@@ -21,8 +22,9 @@ Step 2. Add the dependency
 
 
   	dependencies {
-		compile 'com.github.xiaogaofudao.Android-Widget:toast:1.0.3'
-		compile 'com.github.xiaogaofudao.Android-Widget:dialog:1.0.3'
+		compile 'com.github.xiaogaofudao.Android-Widget:toast:版本号'
+		compile 'com.github.xiaogaofudao.Android-Widget:spinner:版本号'
+		compile 'com.github.xiaogaofudao.Android-Widget:dialog:版本号'
 	}
 
 Toast
@@ -56,4 +58,10 @@ Dialog
 
   
   最后需要注意的是，记得 “import com.gaogeek.dialog.HintDialog”
+
+Spinner
+
+final Spinner niceSpinner = (Spinner) findViewById(R.id.nice_spinner);
+List<String> dataset = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.bank_list)));
+niceSpinner.attachDataSource(dataset);
 
