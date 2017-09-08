@@ -11,7 +11,6 @@ import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RestrictTo;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 
@@ -56,7 +55,7 @@ public class TintTypedArray {
         if (mWrapped.hasValue(index)) {
             final int resourceId = mWrapped.getResourceId(index, 0);
             if (resourceId != 0) {
-                return ContextCompat.getDrawable(mContext, resourceId);
+                return getResources().getDrawable(resourceId);
             }
         }
         return mWrapped.getDrawable(index);
@@ -110,8 +109,7 @@ public class TintTypedArray {
         if (mWrapped.hasValue(index)) {
             final int resourceId = mWrapped.getResourceId(index, 0);
             if (resourceId != 0) {
-                final ColorStateList value =
-                        ContextCompat.getColorStateList(mContext, resourceId);
+                final ColorStateList value = getResources().getColorStateList(resourceId);
                 if (value != null) {
                     return value;
                 }

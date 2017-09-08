@@ -4,13 +4,14 @@ package com.gaogeek.tab;
  * Created by gaogeek on 2017/9/8.
  */
 
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
+
+import com.gaogeek.tab.animation.FastOutLinearInInterpolator;
+import com.gaogeek.tab.animation.FastOutSlowInInterpolator;
+import com.gaogeek.tab.animation.LinearOutSlowInInterpolator;
 
 class AnimationUtils {
 
