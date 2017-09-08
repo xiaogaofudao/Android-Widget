@@ -20,13 +20,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RestrictTo;
 import android.support.annotation.StringRes;
-import android.support.v4.util.Pools;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.PointerIconCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.TextViewCompat;
+import com.gaogeek.tab.support.util.Pools;
+
+import com.gaogeek.tab.support.view.GravityCompat;
+import com.gaogeek.tab.support.view.PointerIconCompat;
+import com.gaogeek.tab.support.view.ViewCompat;
+import com.gaogeek.tab.support.widget.TextViewCompat;
 import android.text.Layout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -43,6 +42,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.gaogeek.tab.support.view.PagerAdapter;
+import com.gaogeek.tab.support.view.ViewPager;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.ref.WeakReference;
@@ -50,11 +52,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
-import static android.support.v4.content.ContextCompat.getColorStateList;
-import static android.support.v4.content.ContextCompat.getDrawable;
-import static android.support.v4.view.ViewPager.SCROLL_STATE_DRAGGING;
-import static android.support.v4.view.ViewPager.SCROLL_STATE_IDLE;
-import static android.support.v4.view.ViewPager.SCROLL_STATE_SETTLING;
+import static com.gaogeek.tab.support.content.ContextCompat.getColorStateList;
+import static com.gaogeek.tab.support.content.ContextCompat.getDrawable;
+import static com.gaogeek.tab.support.view.ViewPager.SCROLL_STATE_DRAGGING;
+import static com.gaogeek.tab.support.view.ViewPager.SCROLL_STATE_IDLE;
+import static com.gaogeek.tab.support.view.ViewPager.SCROLL_STATE_SETTLING;
 
 /**
  * TabLayout provides a horizontal layout to display tabs.
@@ -1742,7 +1744,7 @@ public class TabLayout extends HorizontalScrollView {
                     iconView.requestLayout();
                 }
             }
-            ViewCompat.setTooltipText(this, hasText ? null : contentDesc);
+//            ViewCompat.setTooltipText(this, hasText ? null : contentDesc);
         }
 
         public Tab getTab() {
