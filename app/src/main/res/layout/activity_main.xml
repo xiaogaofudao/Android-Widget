@@ -60,6 +60,30 @@
         android:layout_marginTop="24dp"
         app:layout_constraintTop_toBottomOf="@+id/Toast2" />
 
+
+    <com.gaogeek.tab.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintTop_toBottomOf="@id/Dialog"
+        android:layout_marginTop="20dp">
+
+        <com.gaogeek.tab.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tab111"/>
+
+        <com.gaogeek.tab.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tab222"/>
+
+        <com.gaogeek.tab.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tab333"/>
+
+    </com.gaogeek.tab.TabLayout>
+
     <com.gaogeek.spinner.Spinner
         android:id="@+id/nice_spinner"
         app:textTint="#333"
